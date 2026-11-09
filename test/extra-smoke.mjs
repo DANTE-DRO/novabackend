@@ -1,0 +1,13 @@
+import {chromium} from '@playwright/test';
+import assert from 'node:assert/strict';
+import {writeFile} from 'node:fs/promises';
+const browser=await chromium.launch({headless:true,args:['--no-sandbox']});
+const page=await browser.newPage();const errors=[];page.on('pageerror',e=>errors.push(e.message));
+const root=new URL('../../frontend/index.html',import.meta.url).href;
+await page.goto(root);await page.getByRole('heading',{name:'A world of voices. A better AI.'}).waitFor();
+await page.getByRole('button',{name:'Explore the workspace'}).click();await page.getByRole('heading',{name:/Good to see you/}).waitFor();assert.equal(errors.length,0);
+await page.goto(root+'#/join');await page.getByLabel('Country of residence').waitFor();assert.equal(await page.locator('#country option').count(),250);
+const summary={filePreview:'passed: static file:// landing, dashboard navigation and signup catalogs',runtimeHealth:(await (await fetch('http://localhost:10002/health')).json()),runtimeConfig:(await (await fetch('http://localhost:10002/api/config')).json()),uncaughtErrors:errors};
+assert.equal(summary.runtimeHealth.ok,true);assert.equal(summary.runtimeConfig.registrationEnabled,false);assert.equal(summary.runtimeConfig.verificationReady,false);assert.equal(summary.runtimeConfig.gradingReady,false);
+await writeFile(new URL('../../artifacts/production-smoke.json',import.meta.url),JSON.stringify(summary,null,2));
+await browser.close();console.log('PASS static file preview and real production entry startup, registration disabled, absent providers fail closed.');
