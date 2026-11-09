@@ -1,3 +1,4 @@
+// HISTORICAL preview/provider harness. Use npm run test:browser (fixed-browser.mjs) for the repaired live offline flow.
 import {chromium} from '@playwright/test';
 import assert from 'node:assert/strict';
 import {writeFile} from 'node:fs/promises';

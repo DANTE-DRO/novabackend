@@ -1,0 +1,35 @@
+# Deploy the whole repository, not only backend/, for the self-hosted scanner.
+services:
+  - type: web
+    name: novabackend
+    runtime: docker
+    dockerfilePath: ./Dockerfile
+    dockerContext: .
+    healthCheckPath: /health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: TRUST_PROXY
+        value: "1"
+      - key: VERIFICATION_MODE
+        value: local_review
+      - key: CORPUS_AUTOGENERATE
+        value: "true"
+      - key: CORPUS_TARGET
+        value: "1000000"
+      - key: DATABASE_URL
+        sync: false
+      - key: APP_SECRET
+        generateValue: true
+      - key: DATA_ENCRYPTION_KEY
+        sync: false
+      - key: FRONTEND_ORIGINS
+        value: https://novabackend-i4iy.onrender.com
+      - key: ADMIN_PATH
+        value: /nova-control
+      - key: ADMIN_TOTP_SECRET
+        sync: false
+      - key: REGISTRATION_ENABLED
+        value: "false"
+      - key: LEGAL_APPROVED
+        value: "false"

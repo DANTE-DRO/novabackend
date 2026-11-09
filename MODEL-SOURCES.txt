@@ -1,0 +1,5 @@
+YuNet model: https://github.com/opencv/opencv_zoo/tree/main/models/face_detection_yunet
+SFace model: https://github.com/opencv/opencv_zoo/tree/main/models/face_recognition_sface
+Downloaded ONNX weights are bundled; runtime does not download models or call an API.
+Follow included individual model licences. Thresholds are screening settings, not guarantees.
+OpenCV reference: https://docs.opencv.org/4.13.0/d0/dd4/tutorial_dnn_face.html

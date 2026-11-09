@@ -1,3 +1,4 @@
+// HISTORICAL preview/provider harness. Use npm run test:browser (fixed-browser.mjs) for the repaired live offline flow.
 // Local testing only. Never deploy this file or these mock adapters as your server.
 import {database,migrate} from '../src/db.js';
 import {createApp} from '../src/app.js';

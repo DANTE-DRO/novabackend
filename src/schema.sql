@@ -63,3 +63,30 @@ CREATE TABLE IF NOT EXISTS audits (
  created_at timestamptz NOT NULL DEFAULT now()
 );
 CREATE TABLE IF NOT EXISTS webhook_events (id text PRIMARY KEY,created_at timestamptz NOT NULL DEFAULT now());
+
+-- Additive migration: preserves existing users, balances and ledger entries.
+ALTER TABLE corpus ADD COLUMN IF NOT EXISTS translations jsonb NOT NULL DEFAULT '{}';
+ALTER TABLE corpus ADD COLUMN IF NOT EXISTS generated_index integer;
+CREATE UNIQUE INDEX IF NOT EXISTS corpus_generated_index ON corpus(generated_index) WHERE generated_index IS NOT NULL;
+CREATE INDEX IF NOT EXISTS corpus_translations_language ON corpus USING gin(translations);
+CREATE INDEX IF NOT EXISTS assignments_history ON assignments(user_id,task_id);
+CREATE TABLE IF NOT EXISTS quiz_questions (
+ user_id text NOT NULL REFERENCES users(id), position integer NOT NULL,
+ task_id text NOT NULL REFERENCES corpus(id), PRIMARY KEY(user_id,position)
+);
+CREATE TABLE IF NOT EXISTS verification_submissions (
+ id text PRIMARY KEY,user_id text NOT NULL REFERENCES users(id),kind text NOT NULL CHECK(kind IN ('identity','interview')),
+ status text NOT NULL DEFAULT 'pending', evidence_encrypted text,checks jsonb NOT NULL DEFAULT '{}',
+ reason text,created_at timestamptz NOT NULL DEFAULT now(),expires_at timestamptz NOT NULL DEFAULT now()+interval '7 days',reviewed_at timestamptz
+);
+CREATE UNIQUE INDEX IF NOT EXISTS verification_pending ON verification_submissions(user_id,kind) WHERE status='pending';
+CREATE INDEX IF NOT EXISTS verification_expiry ON verification_submissions(expires_at) WHERE evidence_encrypted IS NOT NULL;
+
+ALTER TABLE users ADD COLUMN IF NOT EXISTS enrolled_selfie text;
+UPDATE users SET enrolled_selfie=avatar WHERE identity_state='verified' AND enrolled_selfie IS NULL AND avatar IS NOT NULL;
+
+CREATE TABLE IF NOT EXISTS quiz_answers (
+ id text PRIMARY KEY,user_id text NOT NULL REFERENCES users(id),position integer NOT NULL,
+ task_id text NOT NULL REFERENCES corpus(id),answer text NOT NULL,status text NOT NULL DEFAULT 'review',
+ feedback text,created_at timestamptz NOT NULL DEFAULT now(),UNIQUE(user_id,position)
+);
