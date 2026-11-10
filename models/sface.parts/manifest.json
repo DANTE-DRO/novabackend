@@ -1,0 +1,27 @@
+{
+  "output": "sface.onnx",
+  "bytes": 38696353,
+  "sha256": "0ba9fbfa01b5270c96627c4ef784da859931e02f04419c829e83484087c34e79",
+  "parts": [
+    {
+      "name": "sface.onnx.part01",
+      "bytes": 10485760,
+      "sha256": "8a3602bf3e14ed5d1f782280b318e70ffc925f0c4711b1ce249c78ab03576cfa"
+    },
+    {
+      "name": "sface.onnx.part02",
+      "bytes": 10485760,
+      "sha256": "d444505b3cdb553c2b1bc9b8758d8faf16b94509999183d8ec6076baec43ab4f"
+    },
+    {
+      "name": "sface.onnx.part03",
+      "bytes": 10485760,
+      "sha256": "db534b7471f9a403938b7dab0dc226994a88efa0fccbe611e454b8baca4cdd22"
+    },
+    {
+      "name": "sface.onnx.part04",
+      "bytes": 7239073,
+      "sha256": "4a7f189aee1e97d9e3972d0d7cc08c06fd115e7e27037b5998c14f57e92cd584"
+    }
+  ]
+}

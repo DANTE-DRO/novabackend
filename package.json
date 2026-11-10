@@ -10,14 +10,18 @@
     "start": "node server.js",
     "dev": "node --env-file-if-exists=.env --watch server.js",
     "test": "node --test --test-concurrency=1 test/*.test.js",
-    "check": "node --check server.js && node --check src/app.js && node --check src/offline-corpus.js && node --check src/local-checks.js && node --check public/admin/admin.js && node --check ../frontend/app.js",
+    "check": "node --check server.js && node --check src/app.js && node --check src/offline-corpus.js && node --check src/local-checks.js && node --check public/admin/admin.js && node --check ../frontend/app.js && node --check src/recovery.js && node --check scripts/prepare-models.js",
     "migrate": "node --env-file-if-exists=.env scripts/migrate.js",
     "create-admin": "node --env-file-if-exists=.env scripts/create-admin.js",
     "import-corpus": "node --env-file-if-exists=.env scripts/import-corpus.js",
     "secrets": "node scripts/generate-secrets.js",
     "test:browser": "node test/fixed-browser.mjs",
     "generate-corpus": "node --env-file-if-exists=.env scripts/generate-corpus.js",
-    "test:startup": "node test/startup-fixed.mjs"
+    "test:startup": "node test/startup-fixed.mjs",
+    "prepare-models": "node scripts/prepare-models.js",
+    "prestart": "node scripts/prepare-models.js",
+    "recovery-status": "node --env-file-if-exists=.env scripts/recovery-status.js",
+    "test:recovery": "node --test --test-concurrency=1 test/recovery.test.js"
   },
   "dependencies": {
     "bcryptjs": "3.0.3",

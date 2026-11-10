@@ -1,0 +1,7 @@
+YuNet model: https://github.com/opencv/opencv_zoo/tree/main/models/face_detection_yunet
+SFace model: https://github.com/opencv/opencv_zoo/tree/main/models/face_recognition_sface
+Exact ONNX weights are bundled. SFace is stored as four <=10 MiB parts in sface.parts/.
+Docker reconstructs and verifies SHA-256 during build; native setup: npm run prepare-models.
+Runtime does not download models or call an API.
+Follow included individual model licences. Thresholds are screening settings, not guarantees.
+OpenCV reference: https://docs.opencv.org/4.13.0/d0/dd4/tutorial_dnn_face.html

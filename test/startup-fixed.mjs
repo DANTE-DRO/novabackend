@@ -1,7 +1,7 @@
 import {spawn} from 'node:child_process';
 import assert from 'node:assert/strict';
 import {writeFile,mkdir} from 'node:fs/promises';
-const dir=new URL('../',import.meta.url).pathname,out=new URL('../../artifacts/fixed/',import.meta.url).pathname;await mkdir(out,{recursive:true});
+const dir=new URL('../',import.meta.url).pathname,out=new URL('../../artifacts/neon-fix/',import.meta.url).pathname;await mkdir(out,{recursive:true});
 const base={...process.env,NODE_ENV:'production',DATABASE_URL:process.env.STARTUP_DATABASE_URL,APP_SECRET:'startup-test-secret-at-least-32-characters',DATA_ENCRYPTION_KEY:'55'.repeat(32),FRONTEND_ORIGINS:'https://novabackend-i4iy.onrender.com',PORT:'10003',VERIFICATION_MODE:'local_review',CORPUS_AUTOGENERATE:'true',CORPUS_TARGET:'1000000'};
 if(!base.DATABASE_URL||!base.DATABASE_URL.includes('nova_corpus'))throw new Error('Use the disposable nova_corpus database.');
 function launch(env){const child=spawn(process.execPath,['server.js'],{cwd:dir,env,stdio:['ignore','pipe','pipe']});let text='';child.stdout.on('data',b=>text+=b);child.stderr.on('data',b=>text+=b);return {child,log:()=>text};}
