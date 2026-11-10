@@ -6,7 +6,7 @@ COPY backend/package.json backend/package-lock.json ./
 RUN npm ci --omit=dev --no-audit --no-fund
 COPY --chown=node:node backend/ ./
 COPY --chown=node:node frontend/ /app/frontend/
-RUN echo "8f2383e4dd3cfbb4553ea8718107fc0423210dc964f9f4280604804ed2552fa4  models/yunet.onnx" | sha256sum -c - && echo "0ba9fbfa01b5270c96627c4ef784da859931e02f04419c829e83484087c34e79  models/sface.onnx" | sha256sum -c -
+RUN node scripts/prepare-models.js && echo "8f2383e4dd3cfbb4553ea8718107fc0423210dc964f9f4280604804ed2552fa4  models/yunet.onnx" | sha256sum -c - && echo "0ba9fbfa01b5270c96627c4ef784da859931e02f04419c829e83484087c34e79  models/sface.onnx" | sha256sum -c -
 ENV NODE_ENV=production PYTHON_BIN=/opt/identity/bin/python3 PYTHONUNBUFFERED=1 VERIFICATION_MODE=local_review
 USER node
 EXPOSE 10000

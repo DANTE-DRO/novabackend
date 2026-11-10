@@ -1,4 +1,7 @@
 # Deploy the whole repository, not only backend/, for the self-hosted scanner.
+# Existing manually-created services: set these values in Render Environment too.
+# DATABASE_URL must point at your persistent Neon database.
+# Preserve APP_SECRET and DATA_ENCRYPTION_KEY across every redeploy.
 services:
   - type: web
     name: novabackend
